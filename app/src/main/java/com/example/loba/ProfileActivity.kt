@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 private const val TAG = "ProfileActivity"
 class ProfileActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
