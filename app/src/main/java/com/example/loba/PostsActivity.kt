@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.loba.models.Post
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -13,17 +15,32 @@ private const val TAG = "PostsActivity"
 class PostsActivity : AppCompatActivity() {
 
     val firestoreDb = Firebase.firestore
+    private lateinit var posts = MutableList<Post>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts)
 
-        val postsReference = firestoreDb.collection("posts")
-        postsReference.get().addOnSuccessListener { result ->
-            for (document in result){
-                Log.i(TAG, "${document.id} => ${document.data}")
+//        Create the layout file which  represents one post
+//        Create data source
+//        create the adapter
+//        Bind 
+
+        val postsReference = firestoreDb
+            .collection("posts")
+            .limit(20)
+            .orderBy("created_at", Query.Direction.DESCENDING)
+
+        postsReference.addSnapshotListener { snapshot, error ->
+
+            if (error != null || snapshot == null) {
+                Log.w(TAG, "Error getting documents", error)
+                return@addSnapshotListener
             }
-        }.addOnFailureListener { exception ->
-            Log.w(TAG, "Error getting documents", exception)
+            val postList = snapshot.toObjects(Post::class.java)
+            for (post in postList) {
+                Log.i(TAG, "Post => $post")
+            }
         }
     }
 
