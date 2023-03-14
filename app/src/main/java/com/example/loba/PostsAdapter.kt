@@ -1,6 +1,7 @@
 package com.example.loba
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,7 @@ class PostsAdapter (val context: Context, val posts: List<Post>) :
         holder.tvUsername.text = post.user?.username.toString()
         holder.tvDescription.text = post.description.toString()
         Glide.with(context).load(post.image_url).into(holder.image_url)
-        holder.tvCreated.text = post.created_at.toString()
+        holder.tvCreated.text =  DateUtils.getRelativeTimeSpanString(post.created_at)
     }
 
     inner class viewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
