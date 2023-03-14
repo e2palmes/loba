@@ -1,6 +1,10 @@
 buildscript {
     ext {
+<<<<<<< HEAD
         kotlin_version = '1.8.0'
+=======
+        kotlin_version = '1.8.10'
+>>>>>>> d93afa18ffd0b468a0b14563749b670fa61e7c00
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
@@ -8,6 +12,7 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        google()
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
