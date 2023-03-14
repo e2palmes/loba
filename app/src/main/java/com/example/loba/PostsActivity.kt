@@ -1,11 +1,15 @@
 package com.example.loba
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.loba.databinding.ActivityPostsBinding
+import com.example.loba.databinding.ItemPostBinding
 import com.example.loba.models.Post
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -16,17 +20,20 @@ class PostsActivity : AppCompatActivity() {
 
     val firestoreDb = Firebase.firestore
     private lateinit var posts: MutableList<Post>
+    private lateinit var adapter: PostsAdapter
+    private lateinit var binding: ActivityPostsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_posts)
+        binding = ActivityPostsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-//        Create the layout file which  represents one post
+        binding.rvPosts.layoutManager = LinearLayoutManager(this)
+
 //        Create data source
         posts = mutableListOf()
-//        create the adapter
-//        Bind 
 
+//        Get the data from FirestoreDB
         val postsReference = firestoreDb
             .collection("posts")
             .limit(20)
@@ -39,10 +46,17 @@ class PostsActivity : AppCompatActivity() {
                 return@addSnapshotListener
             }
             val postList = snapshot.toObjects(Post::class.java)
+            posts.clear()
+            posts.addAll(postList)
+            adapter.notifyDataSetChanged()
             for (post in postList) {
                 Log.i(TAG, "Post => $post")
             }
         }
+        //        create the adapter
+        adapter = PostsAdapter(this, posts)
+        //        Binding
+        binding.rvPosts.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
