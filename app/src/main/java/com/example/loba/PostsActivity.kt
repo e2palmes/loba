@@ -15,7 +15,7 @@ private const val TAG = "PostsActivity"
 class PostsActivity : AppCompatActivity() {
 
     val firestoreDb = Firebase.firestore
-    private lateinit var posts = MutableList<Post>
+    private lateinit var posts : MutableList<Post>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
