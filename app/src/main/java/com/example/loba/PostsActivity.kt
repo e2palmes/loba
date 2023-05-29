@@ -1,6 +1,6 @@
 package com.example.loba
 
-import android.app.Activity
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.loba.databinding.ActivityPostsBinding
-import com.example.loba.databinding.ItemPostBinding
 import com.example.loba.models.Post
 import com.example.loba.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -23,13 +22,9 @@ open class PostsActivity : AppCompatActivity() {
 
     private var signedInUser: User? = null
     val firestoreDb = Firebase.firestore
-<<<<<<< HEAD
-    private lateinit var posts : MutableList<Post>
-=======
     private lateinit var posts: MutableList<Post>
     private lateinit var adapter: PostsAdapter
     private lateinit var binding: ActivityPostsBinding
->>>>>>> d93afa18ffd0b468a0b14563749b670fa61e7c00
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

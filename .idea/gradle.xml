@@ -7,11 +7,7 @@
         <option name="testRunner" value="GRADLE" />
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-<<<<<<< HEAD
         <option name="gradleJvm" value="11" />
-=======
-        <option name="gradleJvm" value="temurin-17" />
->>>>>>> d93afa18ffd0b468a0b14563749b670fa61e7c00
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />

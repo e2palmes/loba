@@ -1,0 +1,121 @@
+Index: app/src/main/res/layout/activity_posts.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".PostsActivity\">\r\n\r\n    <androidx.recyclerview.widget.RecyclerView\r\n        android:id=\"@+id/rvPosts\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        tools:layout_editor_absoluteX=\"1dp\"\r\n        tools:layout_editor_absoluteY=\"1dp\" />\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_posts.xml b/app/src/main/res/layout/activity_posts.xml
+--- a/app/src/main/res/layout/activity_posts.xml	(revision d93afa18ffd0b468a0b14563749b670fa61e7c00)
++++ b/app/src/main/res/layout/activity_posts.xml	(date 1685284709148)
+@@ -2,6 +2,7 @@
+ <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
++    android:id="@+id/fabCreate"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context=".PostsActivity">
+@@ -12,4 +13,16 @@
+         android:layout_height="match_parent"
+         tools:layout_editor_absoluteX="1dp"
+         tools:layout_editor_absoluteY="1dp" />
++
++    <com.google.android.material.floatingactionbutton.FloatingActionButton
++        android:id="@+id/fabCreate"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginEnd="18dp"
++        android:layout_marginBottom="18dp"
++        android:clickable="true"
++        android:tint="@color/white"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:srcCompat="@android:drawable/ic_input_add" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/com/example/loba/PostsActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.loba\r\n\r\nimport android.app.Activity\r\nimport android.content.Intent\r\nimport androidx.appcompat.app.AppCompatActivity\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.Menu\r\nimport android.view.MenuItem\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport com.example.loba.databinding.ActivityPostsBinding\r\nimport com.example.loba.databinding.ItemPostBinding\r\nimport com.example.loba.models.Post\r\nimport com.example.loba.models.User\r\nimport com.google.firebase.auth.FirebaseAuth\r\nimport com.google.firebase.firestore.Query\r\nimport com.google.firebase.firestore.ktx.firestore\r\nimport com.google.firebase.ktx.Firebase\r\n\r\nprivate const val TAG = \"PostsActivity\"\r\nprivate const val EXTRA_USERNAME = \"EXTRA_USERNAME\"\r\nopen class PostsActivity : AppCompatActivity() {\r\n\r\n    private var signedInUser: User? = null\r\n    val firestoreDb = Firebase.firestore\r\n    private lateinit var posts: MutableList<Post>\r\n    private lateinit var adapter: PostsAdapter\r\n    private lateinit var binding: ActivityPostsBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        binding = ActivityPostsBinding.inflate(layoutInflater)\r\n        setContentView(binding.root)\r\n        binding.rvPosts.layoutManager = LinearLayoutManager(this)\r\n\r\n//        Create data source\r\n        posts = mutableListOf()\r\n\r\n        firestoreDb.collection(\"users\")\r\n            .document(FirebaseAuth.getInstance().currentUser?.uid as String)\r\n            .get()\r\n            .addOnSuccessListener { userSnapshot ->\r\n                signedInUser = userSnapshot.toObject(User::class.java)\r\n                Log.i(TAG, \"signed in user: $signedInUser\")\r\n            }.addOnFailureListener {exception ->\r\n                Log.i(TAG, \"Failed to fetch the signed in user\", exception)\r\n            }\r\n\r\n\r\n//        Get the data from FirestoreDB\r\n        var postsReference = firestoreDb\r\n            .collection(\"posts\")\r\n            .limit(20)\r\n            .orderBy(\"created_at\", Query.Direction.DESCENDING)\r\n\r\n        val username = intent.getStringExtra(EXTRA_USERNAME)\r\n        if (username != null){\r\n            postsReference = postsReference.whereEqualTo(\"user.username\", username)\r\n        }\r\n\r\n        postsReference.addSnapshotListener { snapshot, error ->\r\n\r\n            if (error != null || snapshot == null) {\r\n                Log.w(TAG, \"Error getting documents\", error)\r\n                return@addSnapshotListener\r\n            }\r\n            val postList = snapshot.toObjects(Post::class.java)\r\n            posts.clear()\r\n            posts.addAll(postList)\r\n            adapter.notifyDataSetChanged()\r\n            for (post in postList) {\r\n                Log.i(TAG, \"Post => $post\")\r\n            }\r\n        }\r\n        //        create the adapter\r\n        adapter = PostsAdapter(this, posts)\r\n        //        Binding\r\n        binding.rvPosts.adapter = adapter\r\n    }\r\n\r\n    override fun onCreateOptionsMenu(menu: Menu?): Boolean {\r\n        menuInflater.inflate(R.menu.menu_posts, menu)\r\n        return super.onCreateOptionsMenu(menu)\r\n    }\r\n\r\n    override fun onOptionsItemSelected(item: MenuItem): Boolean {\r\n        if (item.itemId == R.id.menu_profile){\r\n            val intent = Intent(this,ProfileActivity::class.java)\r\n            intent.putExtra(EXTRA_USERNAME, signedInUser?.username)\r\n            startActivity(intent)\r\n        }\r\n        return super.onOptionsItemSelected(item)\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/loba/PostsActivity.kt b/app/src/main/java/com/example/loba/PostsActivity.kt
+--- a/app/src/main/java/com/example/loba/PostsActivity.kt	(revision d93afa18ffd0b468a0b14563749b670fa61e7c00)
++++ b/app/src/main/java/com/example/loba/PostsActivity.kt	(date 1685285345849)
+@@ -76,6 +76,12 @@
+         adapter = PostsAdapter(this, posts)
+         //        Binding
+         binding.rvPosts.adapter = adapter
++
++        binding.fabCreate.setOnClickListener {
++            var intent = Intent(this, CreateActivity::class.java)
++
++        }
++
+     }
+ 
+     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+Index: app/src/main/java/com/example/loba/CreateActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/loba/CreateActivity.kt b/app/src/main/java/com/example/loba/CreateActivity.kt
+new file mode 100644
+--- /dev/null	(date 1685285262882)
++++ b/app/src/main/java/com/example/loba/CreateActivity.kt	(date 1685285262882)
+@@ -0,0 +1,11 @@
++package com.example.loba
++
++import androidx.appcompat.app.AppCompatActivity
++import android.os.Bundle
++
++class CreateActivity : AppCompatActivity() {
++    override fun onCreate(savedInstanceState: Bundle?) {
++        super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_create)
++    }
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_create.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_create.xml b/app/src/main/res/layout/activity_create.xml
+new file mode 100644
+--- /dev/null	(date 1685285262866)
++++ b/app/src/main/res/layout/activity_create.xml	(date 1685285262866)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".CreateActivity">
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme.Loba\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".ProfileActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".PostsActivity\"\r\n            android:exported=\"false\" />\r\n        <activity\r\n            android:name=\".LoginActivity\"\r\n            android:exported=\"true\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	(revision d93afa18ffd0b468a0b14563749b670fa61e7c00)
++++ b/app/src/main/AndroidManifest.xml	(date 1685285052392)
+@@ -14,6 +14,9 @@
+         android:theme="@style/Theme.Loba"
+         tools:targetApi="31">
+         <activity
++            android:name=".CreateActivity"
++            android:exported="false" />
++        <activity
+             android:name=".ProfileActivity"
+             android:exported="false" />
+         <activity
