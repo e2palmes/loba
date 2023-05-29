@@ -76,6 +76,11 @@ open class PostsActivity : AppCompatActivity() {
         adapter = PostsAdapter(this, posts)
         //        Binding
         binding.rvPosts.adapter = adapter
+
+        binding.fabCreate.setOnClickListener {
+            val intent = Intent(this,CreateActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
