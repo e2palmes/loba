@@ -26,6 +26,7 @@ open class PostsActivity : AppCompatActivity() {
     private lateinit var adapter: PostsAdapter
     private lateinit var binding: ActivityPostsBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPostsBinding.inflate(layoutInflater)

@@ -1,196 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:layout_margin="16dp"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/design_one"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="150dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="4dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/design_two"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <ImageView
-        android:id="@+id/logoView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="64dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="88dp"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="15dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoView">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:drawableLeft="@drawable/ic_person"
-                android:hint="entrer votre adresse email"
-                android:inputType="textEmailAddress"
-                android:paddingStart="12dp"
-                android:paddingTop="15dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="4dp"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="15dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView1">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"
-                android:drawableLeft="@drawable/ic_lock"
-                android:hint="entrer votre mot de passe"
-                android:inputType="textEmailAddress"
-                android:paddingStart="12dp"
-                android:paddingTop="15dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <ImageView
-        android:id="@+id/btnLogin"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="44dp"
-        android:src="@drawable/btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="136dp"
-        android:text="Connectez vous"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView2" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="Vous n'avez pas encore de compte ?"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Connectez vous"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/cardView1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoView"
-        app:layout_constraintVertical_bias="0.233" />
-
-
-    <!--<EditText
+    <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:ems="10"
         android:hint="Email"
-        android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="163dp" />-->
-    <!--
+        android:inputType="textEmailAddress" />
 
-<EditText
-    android:id="@+id/etPassword"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:ems="10"
-    android:hint="Password"
-    android:inputType="textPassword" />
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
-<Button
-    android:id="@+id/btnLogin"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:text="Login"
-    tools:layout_editor_absoluteX="16dp"
-    tools:layout_editor_absoluteY="166dp" />-->
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Login" />
+</LinearLayout>
