@@ -1,8 +1,7 @@
 package com.example.loba.models
 
 data class User(
-    var firstname: String = "",
-    var lastname: String = "",
+    var fullname: String ="",
     var username: String = "",
-    var password : String = ""
+    var email : String = "",
 )

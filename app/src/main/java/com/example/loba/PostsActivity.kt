@@ -8,10 +8,14 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.loba.adapters.PostsAdapter
 import com.example.loba.databinding.ActivityPostsBinding
 import com.example.loba.models.Post
 import com.example.loba.models.User
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -31,51 +35,62 @@ open class PostsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPostsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.rvPosts.layoutManager = LinearLayoutManager(this)
 
-//        Create data source
-        posts = mutableListOf()
+        val recyclerView: RecyclerView = findViewById(R.id.rvPosts)
+        val newPostButton: FloatingActionButton = findViewById(R.id.newPost)
+        newPostButton.setOnClickListener {
 
-        firestoreDb.collection("users")
-            .document(FirebaseAuth.getInstance().currentUser?.uid as String)
-            .get()
-            .addOnSuccessListener { userSnapshot ->
-                signedInUser = userSnapshot.toObject(User::class.java)
-                Log.i(TAG, "signed in user: $signedInUser")
-            }.addOnFailureListener {exception ->
-                Log.i(TAG, "Failed to fetch the signed in user", exception)
-            }
-
-
-//        Get the data from FirestoreDB
-        var postsReference = firestoreDb
-            .collection("posts")
-            .limit(20)
-            .orderBy("created_at", Query.Direction.DESCENDING)
-
-        val username = intent.getStringExtra(EXTRA_USERNAME)
-        if (username != null){
-            postsReference = postsReference.whereEqualTo("user.username", username)
+            val intent = Intent(this, NewPostActivity::class.java)
+            startActivity(intent)
         }
 
-        postsReference.addSnapshotListener { snapshot, error ->
+        val db = FirebaseFirestore.getInstance()
+        val postsCollection = db.collection("Posts")
+        val usersCollection = db.collection("Users")
 
-            if (error != null || snapshot == null) {
-                Log.w(TAG, "Error getting documents", error)
-                return@addSnapshotListener
+        postsCollection.get()
+            .addOnSuccessListener { querySnapshot ->
+                val postList = mutableListOf<Post>()
+
+                for (document in querySnapshot) {
+                    val description = document.getString("description")
+                    val image_url = document.getString("image_url")
+                    val user = document.getString("user")
+                    val createdAt = document.getTimestamp("createdAt")
+
+                    if (description != null && createdAt != null) {
+                        usersCollection.document(user.toString()).get()
+                            .addOnSuccessListener { userDocument ->
+                                if (userDocument.exists()) {
+                                    val user = userDocument.toObject(User::class.java)
+                                    if (user != null) {
+
+                                        val post = Post(description, image_url, user.username, createdAt)
+
+                                        postList.add(post)
+                                        println(postList.size)
+                                        println(querySnapshot.size())
+
+                                    }
+                                }
+
+                                // Check if all documents have been processed
+                                if (postList.size == querySnapshot.size()) {
+                                    println(postList)
+                                    val postAdapter = PostsAdapter(this, postList)
+                                    recyclerView.adapter = postAdapter
+                                }
+                            }
+                    }
+                }
             }
-            val postList = snapshot.toObjects(Post::class.java)
-            posts.clear()
-            posts.addAll(postList)
-            adapter.notifyDataSetChanged()
-            for (post in postList) {
-                Log.i(TAG, "Post => $post")
+            .addOnFailureListener { exception ->
+                Log.e("Firestore", "Error retrieving posts: ${exception.message}")
             }
-        }
-        //        create the adapter
-        adapter = PostsAdapter(this, posts)
-        //        Binding
-        binding.rvPosts.adapter = adapter
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
