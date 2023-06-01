@@ -34,7 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.btnRegister)
 
 
-        tvLoginLink = findViewById(R.id.tvlogin_link)
+        tvLoginLink = findViewById(R.id.tvLogin_link)
 
 
 
@@ -80,7 +80,7 @@ class RegisterActivity : AppCompatActivity() {
                             val user = auth.currentUser
 
                             // Create a User object to store additional user information
-                            val newUser = User(fullname, username, email)
+                            val newUser = User(null, fullname, username, email)
 
                             // Store user information in Firestore Users collection
                             FirebaseFirestore.getInstance().collection("Users")

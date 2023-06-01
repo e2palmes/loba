@@ -12,15 +12,7 @@
       android:orientation="vertical"
       tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/tvlogin_link"
-        android:layout_width="346dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:text="Vous avez déja un compte ?"
-        android:textStyle="bold" />
+
 
     <EditText
         android:id="@+id/etFullname"

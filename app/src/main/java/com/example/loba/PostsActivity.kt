@@ -104,6 +104,11 @@ open class PostsActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_USERNAME, signedInUser?.username)
             startActivity(intent)
         }
+
+        if (item.itemId == R.id.menu_contacts){
+            val intent = Intent(this,ContactsActivity::class.java)
+            startActivity(intent)
+        }
         return super.onOptionsItemSelected(item)
     }
 }

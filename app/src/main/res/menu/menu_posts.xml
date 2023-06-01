@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_person"
         android:title="Profile"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_contacts"
+        android:icon="@drawable/contacts"
+        android:title="Profile"
+        app:showAsAction="always" />
 </menu>
