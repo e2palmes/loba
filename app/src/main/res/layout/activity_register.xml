@@ -12,6 +12,16 @@
       android:orientation="vertical"
       tools:context=".LoginActivity">
 
+    <TextView
+        android:id="@+id/tvlogin_link"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:text="Vous avez déja un compte ?"
+        android:textStyle="bold" />
+
     <EditText
         android:id="@+id/etFullname"
         android:layout_width="match_parent"
@@ -56,6 +66,16 @@
         android:ems="10"
         android:hint="confirmer votre mot de passe"
         android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/tvLogin_link"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:text="Vous avez déja un compte ?"
+        android:textStyle="normal" />
 
     <Button
         android:id="@+id/btnRegister"

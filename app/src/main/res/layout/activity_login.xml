@@ -34,7 +34,7 @@
         android:layout_marginTop="16dp"
         android:ems="10"
         android:text="Vous n'avez pas encore de compte?"
-        android:textStyle="bold" />
+        android:textStyle="normal" />
 
     <Button
         android:id="@+id/btnLogin"

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.loba.models.User
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +19,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var usernameEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var confirmPasswordEditText: EditText
+    private lateinit var tvLoginLink: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,17 @@ class RegisterActivity : AppCompatActivity() {
         confirmPasswordEditText = findViewById(R.id.etConfirm_Password)
         registerButton = findViewById(R.id.btnRegister)
 
+
+        tvLoginLink = findViewById(R.id.tvlogin_link)
+
+
+
+        //go to login
+        tvLoginLink.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         auth = FirebaseAuth.getInstance()
 
