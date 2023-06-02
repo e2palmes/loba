@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -17,6 +18,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var btnLogin : Button
     private lateinit var etEmail: EditText
     private lateinit var etPassword : EditText
+    private lateinit var tvRegisterLink: TextView
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +27,16 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         btnLogin = findViewById(R.id.btnLogin)
         etEmail = findViewById(R.id.etEmail)
+        tvRegisterLink = findViewById(R.id.tvRegister_link)
         etPassword = findViewById(R.id.etPassword)
+
+
+        //go to register
+        tvRegisterLink.setOnClickListener{
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         // Handling click on Login Btn
         btnLogin.setOnClickListener {

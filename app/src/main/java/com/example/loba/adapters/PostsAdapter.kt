@@ -1,4 +1,4 @@
-package com.example.loba
+package com.example.loba.adapters
 
 import android.content.Context
 import android.text.format.DateUtils
@@ -9,7 +9,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.loba.R
 import com.example.loba.models.Post
+import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PostsAdapter (val context: Context, val posts: List<Post>) :
     RecyclerView.Adapter<PostsAdapter.viewHolder>() {
@@ -23,10 +28,10 @@ class PostsAdapter (val context: Context, val posts: List<Post>) :
 
     override fun onBindViewHolder(holder: viewHolder, position: Int) {
         val post = posts[position]
-        holder.tvUsername.text = post.user?.username.toString()
+        holder.tvUsername.text = post.user.toString()
         holder.tvDescription.text = post.description.toString()
         Glide.with(context).load(post.image_url).into(holder.image_url)
-        holder.tvCreated.text =  DateUtils.getRelativeTimeSpanString(post.created_at)
+        holder.tvCreated.text =  convertTimestampToDate(post.createdAt)
     }
 
     inner class viewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -34,6 +39,12 @@ class PostsAdapter (val context: Context, val posts: List<Post>) :
         val tvUsername : TextView = itemView.findViewById(R.id.tvUsername)
         val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
         val tvCreated: TextView = itemView.findViewById(R.id.tvCreatedAt)
+    }
+
+    fun convertTimestampToDate(timestamp: Timestamp): String {
+        val dateFormat = SimpleDateFormat("d/M/yyyy", Locale.getDefault())
+        val date = Date(timestamp.seconds * 1000)
+        return dateFormat.format(date)
     }
 
 }

@@ -25,6 +25,13 @@ class ProfileActivity : PostsActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+
+        if (item.itemId == R.id.menu_edit_profile){
+            Log.i(TAG,"Edit profile")
+            Firebase.auth.signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
         return super.onOptionsItemSelected(item)
     }
 }

@@ -1,10 +1,10 @@
 package com.example.loba.models
 
-import com.google.firebase.firestore.PropertyName
+import com.google.firebase.Timestamp
 
 data class Post(
-    var description: String = "",
-    @get:PropertyName("image_url") @set:PropertyName("image_url") var image_url: String = "",
-    @get:PropertyName("created_at") @set:PropertyName("created_at") var created_at: Long = 0,
-    var user: User? = null
+    var description: String,
+    var image_url: String?,
+    var user: String?,
+    val createdAt: Timestamp
 )
