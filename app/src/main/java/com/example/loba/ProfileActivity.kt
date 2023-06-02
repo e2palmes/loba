@@ -1,13 +1,10 @@
 package com.example.loba
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 private const val TAG = "ProfileActivity"
@@ -28,8 +25,7 @@ class ProfileActivity : PostsActivity() {
 
         if (item.itemId == R.id.menu_edit_profile){
             Log.i(TAG,"Edit profile")
-            Firebase.auth.signOut()
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, EditProfileActivity::class.java))
             finish()
         }
         return super.onOptionsItemSelected(item)
