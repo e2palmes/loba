@@ -73,23 +73,12 @@ class ChatActivity : AppCompatActivity() {
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                // Handle when a child message is changed
-                val updatedMessage = snapshot.getValue(Message::class.java)
-                val messageIndex = messageList.indexOfFirst { it.createdAt == updatedMessage?.createdAt }
-                if (messageIndex != -1 && updatedMessage != null) {
-                    messageList[messageIndex] = updatedMessage
-                    messageAdapter.notifyDataSetChanged()
-                }
+                TODO("Not yet implemented")
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                // Handle when a child message is removed
-                val removedMessage = snapshot.getValue(Message::class.java)
-                val messageIndex = messageList.indexOfFirst { it.createdAt == removedMessage?.createdAt }
-                if (messageIndex != -1) {
-                    messageList.removeAt(messageIndex)
-                    messageAdapter.notifyDataSetChanged()
-                }
+
+                TODO("Not yet implemented")
             }
 
             override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
